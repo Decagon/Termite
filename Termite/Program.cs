@@ -13,6 +13,7 @@ namespace Extract_Blocks
         {
             return new string(input.Where(c => char.IsDigit(c)).ToArray());
         }
+
         public static Color UIntToColor(uint color)
         {
             byte a = (byte)(color >> 24);
@@ -74,8 +75,6 @@ namespace Extract_Blocks
                             block.color = hex;
                             block.block_package = curPackage;
                             blocks.Add(block);
-                            //Console.WriteLine(block.layer);
-                            //Console.WriteLine(parts[2]);
                         }
                         else
                         {
@@ -88,8 +87,6 @@ namespace Extract_Blocks
                     }
                 }
 
-
-                // stepped out of loop
                 lines = System.IO.File.ReadAllLines(@"ItemId.as");
                 var layerConverterDict = new Dictionary<string, int>();
                 foreach (string pkg_line in lines)
@@ -97,7 +94,6 @@ namespace Extract_Blocks
                     if (pkg_line.Contains("public static const") && pkg_line.Contains("int"))
                     {
                         var the_line = pkg_line.Replace("public static const ","");
-                        // ex. GLOWY_LINE_BLUE_STRAIGHT:int = 376;
 
                         var package_and_id = (the_line.Split(Convert.ToChar("=")));
                         var package = package_and_id[0].Replace(":int",""); // GLOWY_LINE_BLUE_STRAIGHT
@@ -105,9 +101,6 @@ namespace Extract_Blocks
 
                         layerConverterDict.Add(package.Replace(" ",""), Convert.ToInt32(id));
                     }
-
-                        
-
                 }
 
                 foreach (var block in blocks)
@@ -120,10 +113,8 @@ namespace Extract_Blocks
                         id = sample.Replace("ItemId.", "");
                         try {
                             block.id = Convert.ToString(layerConverterDict[id]);
-                            //Console.WriteLine(JsonConvert.SerializeObject(block));
                         } catch (Exception e)
                         {
-                            //Console.WriteLine("Was not able to find " + id + " in the packages.");
                         }
 
                     }
@@ -133,43 +124,35 @@ namespace Extract_Blocks
                 
                 foreach ( var block in blocks)
                 {
-                    if (block.id.Contains("addBrick")) {
+                    if (block.id.Contains("addBrick"))
+                    {
                         block.id = block.id.Split(Convert.ToChar("("))[2];
-                        //Console.WriteLine(block.id + "=>" + block.color);
-
                     }
 
                     // verification (debugging only)
-                    string value = null;
-                    verification.TryGetValue(Convert.ToInt32(block.id), out value);
-                    
-                    if (value != null)
-                    {
-                        if (!(value == block.color))
-                        {
-                            Console.WriteLine("ERROR: " + block.color + " and " + value + " do not match.");
-                        }
-                    } else
-                    {
-                        verification.Add(Convert.ToInt32(block.id), block.color);
-                    }
+                    //EnsureInterblockConsistency(verification, block);
 
                 }
-
-
             }
-            int p = 0;
-            foreach (var block in verification)
+            Console.ReadKey(false);
+        }
+
+        private static void EnsureInterblockConsistency(Dictionary<int, string> verification, Block block)
+        {
+            string value = null;
+            verification.TryGetValue(Convert.ToInt32(block.id), out value);
+
+            if (value != null)
             {
-                if (block.Key == 382)
+                if (!(value == block.color))
                 {
-                    Console.WriteLine(block.Key + "=>" + block.Value);
+                    Console.WriteLine("ERROR: " + block.color + " and " + value + " do not match.");
                 }
-                //Console.WriteLine(p);
-                p++;
             }
-
-            Thread.Sleep(Timeout.Infinite);
+            else
+            {
+                verification.Add(Convert.ToInt32(block.id), block.color);
+            }
         }
     }
 }
