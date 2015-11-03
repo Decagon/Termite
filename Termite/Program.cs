@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -32,7 +33,7 @@ namespace Extract_Blocks
         {
             Dictionary<int, string> verification = new Dictionary<int, string>();
             var blocks = new List<Block>();
-            string[] lines = System.IO.File.ReadAllLines(@"script.as");
+            string[] lines = System.IO.File.ReadAllLines(@"ItemManager.as");
             string curPackage = "";
             foreach (string line in lines)
             {
@@ -132,6 +133,11 @@ namespace Extract_Blocks
                     // verification (debugging only)
                     //EnsureInterblockConsistency(verification, block);
 
+                   // sample code
+                   if (block.id == "182")
+                    {
+                        Console.WriteLine(JsonConvert.SerializeObject(block));
+                    }
                 }
             }
             Console.ReadKey(false);
