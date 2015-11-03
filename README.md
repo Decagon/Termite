@@ -13,6 +13,8 @@ The app writes a JSON formatted array to the console, containing the following i
 - the shop name
 - description of the block (not many have these)
 - item tab
+- minimap color (in hexadecimal)
+- block package
 - the sprite offset in the respective image file (use bmd in conjunction with the consistent file-naming pattern to find the right image file.)
 
 It is also able to resolve block ids in the form of ItemId.* to the actual numeric id, and does so by default.
