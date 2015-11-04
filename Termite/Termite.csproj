@@ -58,6 +58,91 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="decompiler\ffdec.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\avi.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\avi.montemedia.license.txt" />
+    <Content Include="decompiler\lib\cmykjpeg.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\ffdec_lib.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\ffdec_lib.license.txt" />
+    <Content Include="decompiler\lib\flamingo-6.2.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\flamingo.license.txt" />
+    <Content Include="decompiler\lib\gif.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\gif.license.txt" />
+    <Content Include="decompiler\lib\gnujpdf.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\jargs.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\JavactiveX.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\jl.license.txt" />
+    <Content Include="decompiler\lib\jl1.0.1.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\jna-3.5.1.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\jna.license.txt" />
+    <Content Include="decompiler\lib\jpacker.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\jpacker.license.txt" />
+    <Content Include="decompiler\lib\jpproxy.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\jpproxy.muffin.license.txt" />
+    <Content Include="decompiler\lib\jsyntaxpane-0.9.5.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\jsyntaxpane.license.txt" />
+    <Content Include="decompiler\lib\LZMA.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\nellymoser.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\nellymoser.license.txt" />
+    <Content Include="decompiler\lib\sfntly.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\sfntly.license.txt" />
+    <Content Include="decompiler\lib\substance-6.2.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\substance-flamingo-6.2.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\substance-flamingo.license.txt" />
+    <Content Include="decompiler\lib\substance.license.txt" />
+    <Content Include="decompiler\lib\tablelayout.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\trident-6.2.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\lib\trident.license.txt" />
+    <Content Include="decompiler\lib\ttf.doubletype.license.txt" />
+    <Content Include="decompiler\lib\ttf.fontastic.license.txt" />
+    <Content Include="decompiler\lib\ttf.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="decompiler\license.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
