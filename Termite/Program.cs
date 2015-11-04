@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -31,9 +33,11 @@ namespace Extract_Blocks
 
         static void Main(string[] args)
         {
+            extractSWF();
+
             Dictionary<int, string> verification = new Dictionary<int, string>();
             var blocks = new List<Block>();
-            string[] lines = System.IO.File.ReadAllLines(@"ItemManager.as");
+            string[] lines = System.IO.File.ReadAllLines(@"decompiled/scripts/items/ItemManager.as");
             string curPackage = "";
             foreach (string line in lines)
             {
@@ -53,7 +57,7 @@ namespace Extract_Blocks
                             block.description = parts[4];
                             block.item_tab = parts[5];
                             block.bool_1 = GetBoolean(parts[6]);
-                            block.bool_2 = GetBoolean(parts[7]);;
+                            block.bool_2 = GetBoolean(parts[7]); ;
                             block.sprite_offset = GetNumbers(parts[8]);
                             try
                             {
@@ -63,9 +67,10 @@ namespace Extract_Blocks
                                     Decimal.Parse(
                                         block.color,
                                         NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint));
-                                
 
-                            } catch (Exception)
+
+                            }
+                            catch (Exception)
                             {
                                 block.color = "0"; // just black (empty)
                             }
@@ -88,19 +93,19 @@ namespace Extract_Blocks
                     }
                 }
 
-                lines = System.IO.File.ReadAllLines(@"ItemId.as");
+                lines = System.IO.File.ReadAllLines(@"decompiled/scripts/items/ItemId.as");
                 var layerConverterDict = new Dictionary<string, int>();
                 foreach (string pkg_line in lines)
                 {
                     if (pkg_line.Contains("public static const") && pkg_line.Contains("int"))
                     {
-                        var the_line = pkg_line.Replace("public static const ","");
+                        var the_line = pkg_line.Replace("public static const ", "");
 
                         var package_and_id = (the_line.Split(Convert.ToChar("=")));
-                        var package = package_and_id[0].Replace(":int",""); // GLOWY_LINE_BLUE_STRAIGHT
+                        var package = package_and_id[0].Replace(":int", ""); // GLOWY_LINE_BLUE_STRAIGHT
                         var id = GetNumbers(package_and_id[1]); // 376
 
-                        layerConverterDict.Add(package.Replace(" ",""), Convert.ToInt32(id));
+                        layerConverterDict.Add(package.Replace(" ", ""), Convert.ToInt32(id));
                     }
                 }
 
@@ -112,18 +117,20 @@ namespace Extract_Blocks
                         var id = block.id;
                         var sample = id.Split(Convert.ToChar("("))[2];
                         id = sample.Replace("ItemId.", "");
-                        try {
+                        try
+                        {
                             block.id = Convert.ToString(layerConverterDict[id]);
-                        } catch (Exception e)
+                        }
+                        catch (Exception e)
                         {
                         }
 
                     }
                 }
 
-                
-                
-                foreach ( var block in blocks)
+
+
+                foreach (var block in blocks)
                 {
                     if (block.id.Contains("addBrick"))
                     {
@@ -133,14 +140,35 @@ namespace Extract_Blocks
                     // verification (debugging only)
                     //EnsureInterblockConsistency(verification, block);
 
-                   // sample code
-                   if (block.id == "182")
+                    // sample code
+                    if (block.id == "182")
                     {
                         Console.WriteLine(JsonConvert.SerializeObject(block));
                     }
                 }
             }
             Console.ReadKey(false);
+        }
+
+        private static void extractSWF()
+        {
+            // https://msdn.microsoft.com/en-us/library/system.diagnostics.process.standardoutput.aspx
+            Process process = new Process();
+            process.StartInfo.FileName = "java.exe";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.Arguments = "-jar decompiler/ffdec.jar -export script decompiled/ freegame.swf";
+            process.Start();
+
+            // Synchronously read the standard output of the spawned process. 
+            StreamReader reader = process.StandardOutput;
+            string output = reader.ReadToEnd();
+
+            // Write the redirected output to this application's window.
+            Console.WriteLine(output);
+
+            process.WaitForExit();
+            process.Close();
         }
 
         private static void EnsureInterblockConsistency(Dictionary<int, string> verification, Block block)
