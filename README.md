@@ -2,7 +2,9 @@
 An Everybody Edits SWF resource parser in C#
 
 # How to use
-Download JPEXS Free Flash Decompiler (https://www.free-decompiler.com/flash/) and decompile the following file: http://r.playerio.com/r/everybody-edits-su9rn58o40itdbnw69plyw/freegame.swf
+Download freegame.swf http://r.playerio.com/r/everybody-edits-su9rn58o40itdbnw69plyw/freegame.swf and place it in the build directory.
+
+You have to have Java 8 Runtime or later installed (http://java.com/en/download/).
 
 Extract the files ItemId.as and ItemManager.as and place them in the build folder. Start the app and you're ready to start extracting.
 
