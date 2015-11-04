@@ -2,7 +2,7 @@
 An Everybody Edits SWF resource parser in C#
 
 # How to use
-Download freegame.swf http://r.playerio.com/r/everybody-edits-su9rn58o40itdbnw69plyw/freegame.swf and place it in the build directory.
+Download freegame.swf http://r.playerio.com/r/everybody-edits-su9rn58o40itdbnw69plyw/freegame.swf and place it in the build directory (i.e the Debug folder or the Release folder.)
 
 You have to have Java 8 Runtime or later installed (http://java.com/en/download/).
 
