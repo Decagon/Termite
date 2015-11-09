@@ -2,6 +2,11 @@
 
 Termite decompiles, extracts, and assembles blocks, decorations, ids, and much more into a developer friendly format from Everybody Edits. This means that if your application that depends on blocks (such as a minimap generator) or another EE-related resource can be updated with new blocks almost instantaneously.
 
+# Example
+
+An example of the output is available at https://gist.github.com/Decagon/3bca5b7757016f9bd9f7 .
+
+
 # How to use
 Download freegame.swf http://r.playerio.com/r/everybody-edits-su9rn58o40itdbnw69plyw/freegame.swf and place the swf in the build directory (i.e the Debug folder or the Release folder.)
 
