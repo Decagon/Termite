@@ -33,11 +33,62 @@ namespace Extract_Blocks
 
         static void Main(string[] args)
         {
-            extractSWF();
+            StreamWriter sw = new StreamWriter(@".\Files.txt");
+            sw.AutoFlush = true;
+            Console.SetOut(sw);
+            // use cache extractSWF();
+
+            string[] itemIds = File.ReadAllLines(@"decompiled/scripts/items/ItemId.as");
+
+            var variables = new Dictionary<string, int>();
+            foreach (string lineX in itemIds)
+            {
+                var lineTrimmed = lineX.TrimStart();
+                var lineWords = lineTrimmed.Split(Convert.ToChar(" "));
+
+                
+
+                if ((lineWords[0] == "public") || (lineWords[0] == "private") || (lineWords[0] == "protected"))
+                {
+                    // could be a class, interface or variable
+                    int i = 0;
+                    if (lineWords[1] == "static")
+                    {
+                        i++;
+                    }
+
+                    if (lineWords[1+i] == "const")
+                    {
+                        i++;
+                    } else
+                    {
+                        if (lineWords[1+i] == "function")
+                        {
+                            /// do function stuff
+                        }
+                    }
+
+                    if (lineWords[1+i].Contains(":"))
+                    {
+                        // this is a variable
+                        i++;
+                        var variable = lineWords[i];
+                        var variableClean = (lineWords[i].Split(Convert.ToChar(":")))[0];
+                        var val = lineWords[i + 2];
+                        variables.Add(variableClean, Convert.ToInt32(val.Replace(";", "")));
+                        //Console.WriteLine(variableClean + " = " + val.Substring(0,(val.Length - 2)));
+                    }
+
+                }
+
+                //Console.WriteLine(lineX);
+            }
+
 
             Dictionary<int, string> verification = new Dictionary<int, string>();
             var blocks = new List<Block>();
-            string[] lines = System.IO.File.ReadAllLines(@"decompiled/scripts/items/ItemManager.as");
+            string[] lines = File.ReadAllLines(@"decompiled/scripts/items/ItemManager.as");
+
             string curPackage = "";
             foreach (string line in lines)
             {
@@ -94,7 +145,7 @@ namespace Extract_Blocks
                 }
 
                 lines = System.IO.File.ReadAllLines(@"decompiled/scripts/items/ItemId.as");
-                var layerConverterDict = new Dictionary<string, int>();
+                /*var layerConverterDict = new Dictionary<string, int>();
                 foreach (string pkg_line in lines)
                 {
                     if (pkg_line.Contains("public static const") && pkg_line.Contains("int"))
@@ -107,7 +158,7 @@ namespace Extract_Blocks
 
                         layerConverterDict.Add(package.Replace(" ", ""), Convert.ToInt32(id));
                     }
-                }
+                }*/
 
                 foreach (var block in blocks)
                 {
@@ -119,7 +170,7 @@ namespace Extract_Blocks
                         id = sample.Replace("ItemId.", "");
                         try
                         {
-                            block.id = Convert.ToString(layerConverterDict[id]);
+                            block.id = Convert.ToString(variables[id]);
                         }
                         catch (Exception e)
                         {
@@ -141,12 +192,14 @@ namespace Extract_Blocks
                     //EnsureInterblockConsistency(verification, block);
 
                     // sample code
-                    if (block.id == "182")
+                    /*if (block.id == "182")
                     {
                         Console.WriteLine(JsonConvert.SerializeObject(block));
-                    }
+                    }*/
                 }
             }
+
+            Console.WriteLine(JsonConvert.SerializeObject(blocks));
             Console.ReadKey(false);
         }
 
